@@ -1,14 +1,18 @@
-# Codeigniter V3 for SSLC V4
+# SSLCommerz - Codeigniter
 
 This library made based on new new SSLCommerz V4 API.
+
 #### Prerequisite
   - PHP 5.6
   - MySQL(5.1+)
   - TLS V1.2(For Sandbox API)
+  - [Sandbox Account](https://developer.sslcommerz.com/registration/ "SSLCommerz Sandbox Registration")
+
 #### New Features!
   - SSLCOMMERZ V4 API
   - AUTO IPN Request from script end
   - SSLCommerz EasyCheckout/Hosted UI
+
 #### Configuration
 Please follow below steps
 ```sh
