@@ -14,8 +14,9 @@
 	define("SSLCZ_STORE_ID", "testbox");
 	define("SSLCZ_STORE_PASSWD", "qwerty");
 
+	# SESSION & VALIDATION API
+	define("SSLCZ_SESSION_API", ".sslcommerz.com/gwprocess/v4/api.php");
+	define("SSLCZ_VALIDATION_API", ".sslcommerz.com/validator/api/validationserverAPI.php");
+
 	# IF SANDBOX TRUE, THEN IT WILL CONNECT WITH SSLCOMMERZ SANDBOX (TEST) SYSTEM
 	define("SSLCZ_IS_SANDBOX", true);
-
-	# IF BROWSE FROM LOCAL HOST, KEEP true
-	define("SSLCZ_IS_LOCAL_HOST", true);
