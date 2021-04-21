@@ -31,149 +31,117 @@
 
 	    public function RequestToSSLC($post_data, $storeid, $storepass)
 	    {
-	    	if ($post_data != '' && is_array($post_data) && ($storeid == $this->store_id && $storepass == $this->store_pass)) 
-	    	{
-	            $post_data['store_id'] = $this->store_id;
-	            $post_data['store_passwd'] = $this->store_pass;
+			if ($post_data != '' && is_array($post_data) && ($storeid == $this->store_id && $storepass == $this->store_pass)) {
+				$post_data['store_id'] = $this->store_id;
+				$post_data['store_passwd'] = $this->store_pass;
 
-	            $handle = curl_init();
-		        curl_setopt($handle, CURLOPT_URL, $this->sslc_submit_url);
-		        curl_setopt($handle, CURLOPT_POST, 1);
-		        curl_setopt($handle, CURLOPT_POSTFIELDS, $post_data);
-		        curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+				$handle = curl_init();
+				curl_setopt($handle, CURLOPT_URL, $this->sslc_submit_url);
+				curl_setopt($handle, CURLOPT_POST, 1);
+				curl_setopt($handle, CURLOPT_POSTFIELDS, $post_data);
+				curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
 
-		        $content = curl_exec($handle);
+				$content = curl_exec($handle);
 
-		        $code = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+				$code = curl_getinfo($handle, CURLINFO_HTTP_CODE);
 
-		        if ($code == 200 && !(curl_errno($handle))) 
-		        {
-		            curl_close($handle);
-		            $sslcommerzResponse = $content;
+				if ($code == 200 && !(curl_errno($handle))) {
+				curl_close($handle);
+				$sslcommerzResponse = $content;
 
-		            # PARSE THE JSON RESPONSE
-		            if($this->sslc_data = json_decode($sslcommerzResponse, true))
-		            {
-		            	if (isset($this->sslc_data['status']) && $this->sslc_data['status'] == 'SUCCESS') 
-		                {
-	                        if (isset($this->sslc_data['GatewayPageURL']) && $this->sslc_data['GatewayPageURL'] != '') 
-	                        {
-	                        	echo "<div style='text-align:center;margin:20% 20% 20%;border:2px solid blue;'><h2>Please wait we are redirecting you to SSLCommerz ....</h2></div>";
-	                            echo "
-	                                <script>
-	                                    window.location.href = '" . $this->sslc_data['GatewayPageURL'] . "';
-	                                </script>
-	                            ";
-	                            exit;
-	                        } 
-	                        else 
-	                        {
-	                            $this->error = "No redirect URL found!";
-	                            return $this->error;
-	                        }
-		                }
-		                else 
-		                {
-		                    $this->error = "Invalid Credential!";
-		                    echo $this->error;
-		                }
-
-            		} 
-            		else 
-            		{
-		                $this->error = "Connectivity Issue. Please contact your sslcommerz manager";
-		                echo $this->error;
-		            }
-        		} 
-        		else 
-        		{
-		            $msg = "Please provide a valid information list about transaction with transaction id, amount, success url, fail url, cancel url, store id and pass at least";
-		            echo $this->error = $msg;
-		            // echo false;
-		        }
-		    }
-		    else 
-	        {
-	            curl_close($handle);
-	            $msg = "FAILED TO CONNECT WITH SSLCOMMERZ API OR CHECK STORE ID & PASSWORD";
-	            $this->error = $msg;
-	            return false;
-	        }
-		} 
+				# PARSE THE JSON RESPONSE
+				if ($this->sslc_data = json_decode($sslcommerzResponse, true)) {
+					if (isset($this->sslc_data['status']) && $this->sslc_data['status'] == 'SUCCESS') {
+					if (isset($this->sslc_data['GatewayPageURL']) && $this->sslc_data['GatewayPageURL'] != '') {
+						echo "<div style='text-align:center;margin:20% 20% 20%;border:2px solid blue;'><h2>Please wait, payment page will be loaded shortly ... ...</h2></div>";
+						echo "
+								<script>
+								window.location.href = '" . $this->sslc_data['GatewayPageURL'] . "';
+								</script>
+							";
+						exit;
+					} else {
+						$this->error = "No redirect URL found!";
+						return $this->error;
+					}
+					} else {
+					$this->error = $this->sslc_data['failedreason'];
+					echo $this->error;
+					}
+				} else {
+					$this->error = "JSON Data parsing error!";
+					echo $this->error;
+				}
+				} else {
+				$msg = "Failed to connect with API.";
+				echo $this->error = $msg;
+				// echo false;
+				}
+			} else {
+				curl_close($handle);
+				$msg = "Please check STORE_ID, STORE_PASSWD and IS_SANDBOX value";
+				$this->error = $msg;
+				return false;
+			}
+		}
 
 		public function EasyCheckout($post_data, $storeid, $storepass)
 		{
-			if ($post_data != '' && is_array($post_data) && ($storeid == $this->store_id && $storepass == $this->store_pass)) 
-	    	{
-	            $post_data['store_id'] = $this->store_id;
-	            $post_data['store_passwd'] = $this->store_pass;
+		    if ($post_data != '' && is_array($post_data) && ($storeid == $this->store_id && $storepass == $this->store_pass)) {
+			$post_data['store_id'] = $this->store_id;
+			$post_data['store_passwd'] = $this->store_pass;
 
-	            $handle = curl_init();
-		        curl_setopt($handle, CURLOPT_URL, $this->sslc_submit_url);
-		        curl_setopt($handle, CURLOPT_POST, 1);
-		        curl_setopt($handle, CURLOPT_POSTFIELDS, $post_data);
-		        curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+			$handle = curl_init();
+			curl_setopt($handle, CURLOPT_URL, $this->sslc_submit_url);
+			curl_setopt($handle, CURLOPT_POST, 1);
+			curl_setopt($handle, CURLOPT_POSTFIELDS, $post_data);
+			curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
 
-		        $content = curl_exec($handle);
+			$content = curl_exec($handle);
 
-		        $code = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+			$code = curl_getinfo($handle, CURLINFO_HTTP_CODE);
 
-		        if ($code == 200 && !(curl_errno($handle))) 
-		        {
-		            curl_close($handle);
-		            $sslcommerzResponse = $content;
+			if ($code == 200 && !(curl_errno($handle))) {
+			    curl_close($handle);
+			    $sslcommerzResponse = $content;
 
-		            # PARSE THE JSON RESPONSE
-		            if($this->sslc_data = json_decode($sslcommerzResponse, true))
-		            {
-		            	if (isset($this->sslc_data['status']) && $this->sslc_data['status'] == 'SUCCESS') 
-		                {
-	                        if(isset($this->sslc_data['GatewayPageURL']) && $this->sslc_data['GatewayPageURL']!="") 
-	                        {
-	             	          	if(SSLCZ_IS_SANDBOX)
-	                        	{
-	                        		echo json_encode(['status' => 'success', 'data' => $this->sslc_data['GatewayPageURL'], 'logo' => $this->sslc_data['storeLogo'] ]);
-	                        	}
-	                        	else
-	                        	{
-	                        		echo json_encode(['status' => 'SUCCESS', 'data' => $this->sslc_data['GatewayPageURL'], 'logo' => $this->sslc_data['storeLogo'] ]);
-	                        	}
-	                        	exit;
-							} 
-							else 
-							{
-							   echo json_encode(['status' => 'FAILED', 'data' => null, 'message' => "JSON Data parsing error!"]);
-							}
-		                }
-		                else 
-		                {
-		                    $this->error = "Invalid Request!";
-		                    echo $this->error;
-		                }
-
-            		} 
-            		else 
-            		{
-		                $this->error = "Connectivity Issue. Please contact your sslcommerz manager";
-		                echo $this->error;
-		            }
-        		} 
-        		else 
-        		{
-		            $msg = "Please provide a valid information list about transaction with transaction id, amount, success url, fail url, cancel url, store id and pass at least";
-		            echo $this->error = $msg;
-		            // echo false;
-		        }
+			    # PARSE THE JSON RESPONSE
+			    if ($this->sslc_data = json_decode($sslcommerzResponse, true)) {
+				if (isset($this->sslc_data['status']) && $this->sslc_data['status'] == 'SUCCESS') {
+				    if (isset($this->sslc_data['GatewayPageURL']) && $this->sslc_data['GatewayPageURL'] != "") {
+					if (SSLCZ_IS_SANDBOX) {
+					    echo json_encode(['status' => 'success', 'data' => $this->sslc_data['GatewayPageURL'], 'logo' => $this->sslc_data['storeLogo']]);
+					} else {
+					    echo json_encode(['status' => 'SUCCESS', 'data' => $this->sslc_data['GatewayPageURL'], 'logo' => $this->sslc_data['storeLogo']]);
+					}
+					exit;
+				    } else {
+					$message = "No redirect URL found!";
+					$this->error = json_encode(['status' => 'FAILED', 'data' => null, 'message' => $message]);
+					echo $this->error;
+				    }
+				} else {
+				    $message = $this->sslc_data['failedreason'];
+				    $this->error = json_encode(['status' => 'FAILED', 'data' => null, 'message' => $message]);
+				    echo $this->error;
+				}
+			    } else {
+				$message = "JSON Data parsing error!";
+				$this->error = json_encode(['status' => 'FAILED', 'data' => null, 'message' => $message]);
+				echo $this->error;
+			    }
+			} else {
+			    $message = "Failed to connect with API.";
+			    $this->error = json_encode(['status' => 'FAILED', 'data' => null, 'message' => $message]);
+			    echo $this->error;
+			}
+		    } else {
+			curl_close($handle);
+			$this->error = "Please check STORE_ID, STORE_PASSWD and IS_SANDBOX value";
+			return false;
 		    }
-		    else 
-	        {
-	            curl_close($handle);
-	            $msg = "FAILED TO CONNECT WITH SSLCOMMERZ API OR CHECK STORE ID & PASSWORD";
-	            $this->error = $msg;
-	            return false;
-	        }
 		}
-
+		    
 	    # SET SSLCOMMERZ PAYMENT MODE - LIVE OR TEST
 	    protected function setSSLCommerzMode($test)
 	    {
@@ -192,16 +160,8 @@
 	            echo $this->error;
 	        }
 	        
-	        $validation = $this->Validation($amount, $currency, $post_data);
+	        return $this->Validation($amount, $currency, $post_data);
 	        
-	        if ($validation) 
-	        {
-	            return true;
-	        } 
-	        else 
-	        {
-	            return false;
-	        }
 	    }
 
 	    protected function Validation($merchant_trans_amount, $merchant_trans_currency, $post_data)
@@ -289,7 +249,7 @@
                     }
                 } else {
                     # Failed to connect with SSLCOMMERZ
-                    $this->error = "Faile to connect with SSLCOMMERZ";
+                    $this->error = "Failed to connect with SSLCOMMERZ";
                     echo $this->error;
                     return false;
                 }
