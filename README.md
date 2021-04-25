@@ -1,16 +1,15 @@
 # SSLCommerz - Codeigniter
 
-This library made based on new new SSLCommerz V4 API.
+This library made based on [SSLCommerz V4 API](https://developer.sslcommerz.com/doc/v4/ "SSLCommerz API Documentation").
 
 #### Prerequisite
-  - PHP 5.6
-  - MySQL(5.1+)
-  - TLS V1.2(For Sandbox API)
-  - [Sandbox Account](https://developer.sslcommerz.com/registration/ "SSLCommerz Sandbox Registration")
+  - PHP-Curl library enabled with support to TLSv1.2 or higher
+  - Sandbox Store Credentials. [Please register here](https://developer.sslcommerz.com/registration/ "SSLCommerz Sandbox Registration"). After successful registration, store credentials will be sent through email.
+  - [General requirements for CodeIgniter3](https://codeigniter.com/userguide3/general/requirements.html)
 
-#### New Features!
-  - SSLCOMMERZ V4 API
-  - AUTO IPN Request from script end
+#### Example project features
+  - Sample Controller implementation
+  - Sample IPN handler implementation
   - SSLCommerz EasyCheckout/Hosted UI
 
 #### Configuration
@@ -164,10 +163,10 @@ Pass below parameter through API to connect Payment Gateway
     $post_data['ship_country'] = $this->input->post('country');
     
     # OPTIONAL PARAMETERS
-    $post_data['value_a'] = "ref001";
-    $post_data['value_b'] = "ref002";
-    $post_data['value_c'] = "ref003";
-    $post_data['value_d'] = "ref004";
+    // $post_data['value_a'] = "ref001";
+    // $post_data['value_b'] = "ref002";
+    // $post_data['value_c'] = "ref003";
+    // $post_data['value_d'] = "ref004";
     
     $post_data['product_profile'] = "physical-goods";
     $post_data['shipping_method'] = "YES";
@@ -193,9 +192,11 @@ $route['ipn'] = 'Main/ipn_listener';
 ```
 ---------------------------------------------------------------------------------
 
-- Author : SSLCOMMERZ
-- Contributor: Prabal Mallick
-- Team Email: integration@sslcommerz.com (For any query)
-- More info: https://www.sslcommerz.com
+- Author : SSL Wireless
+- Contributor: Prabal Mallick, Rakibul Islam
+- Team Email: 
+    -  General queries: operation@sslcommerz.com
+    -  Technical query: **integration@sslcommerz.com**
+- More information: https://www.sslcommerz.com
 
-© 2018-2019 SSLCOMMERZ ALL RIGHTS RESERVED
+© 2018-2021 SSLCOMMERZ ALL RIGHTS RESERVED
