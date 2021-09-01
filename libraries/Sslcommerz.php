@@ -152,7 +152,7 @@
 	        }
 	    }
 
-	    public function ValidateResponse($amount = 0, $currency = "BDT", $post_data)
+	    public function ValidateResponse($post_data, $amount = 0, $currency = "BDT")
 	    {
 	        if ($post_data == '' && !is_array($post_data)) 
 	        {
